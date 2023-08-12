@@ -1,6 +1,5 @@
-from typing import Any
-from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -16,9 +15,13 @@ class ArticleListView(generic.ListView):
 
 
 class ArticleDetailView(generic.DetailView):
-    model = Article
     template_name = 'blog/article_detail.html'
     context_object_name = 'article'
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        article = get_object_or_404(Article, id=pk, status='p')
+        return article
 
 
 class ArticleCreateView(generic.CreateView):
@@ -42,7 +45,7 @@ class ArticleDeleteView(generic.DeleteView):
     success_url = reverse_lazy('blog:article_list')
 
 
-class ArticlesearchListView(generic.ListView):
+class ArticleSearchListView(generic.ListView):
     template_name = 'blog/article_search.html'
     context_object_name = 'articles'
 
