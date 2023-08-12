@@ -1,16 +1,13 @@
 {% extends '_base.html' %}
 
-{% load crispy_forms_tags %}
-
 {% block title %}
-    Login
+    Delete
 {% endblock %}
 
 {% block content %}
-    <h3>Login Page</h3>
+    <p>Are You sure you want to delete {{ article.title }}?</p>
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Login">
+        <input type="submit" value="Delete">
     </form>
 {% endblock %}
