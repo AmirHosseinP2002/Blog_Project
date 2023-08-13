@@ -11,4 +11,5 @@ urlpatterns = [
     path('<uuid:pk>/update/', views.ArticleUpdateView.as_view(), name='article_update'),
     path('<uuid:pk>/delete/', views.ArticleDeleteView.as_view(), name='article_delete'),
     path('search/', views.ArticleSearchListView.as_view(), name='article_search'),
+    path('comment/<uuid:article_id>/', views.CommentCreate.as_view(), name='comment_create'),
 ]

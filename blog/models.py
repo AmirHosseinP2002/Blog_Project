@@ -5,6 +5,11 @@ from django.utils import timezone
 from django.urls import reverse
 
 
+class CommentManager(models.Manager):
+    def active_comments(self):
+        return self.filter(active=True)
+
+
 class Article(models.Model):
     STATUS_CHOICES = (
         ('p', 'Published'),
@@ -34,18 +39,29 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse('blog:article_detail', args=[str(self.id)])
 
 
 class Comment(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, related_name='comments')
+    email = models.EmailField()
     text = models.TextField()
     active = models.BooleanField(default=True)
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_updated = models.DateTimeField(auto_now=True)
 
+    objects = CommentManager()
+
     def __str__(self) -> str:
         return f'{self.author} for {self.article}'
+
+    class Meta:
+        verbose_name = 'نظر '
+        verbose_name_plural = 'نظرات'
+
+    def get_absolute_url(self):
+        return reverse('blog:article_detail', args=[str(self.article.id)])

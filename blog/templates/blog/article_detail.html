@@ -1,5 +1,7 @@
 {% extends '_base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block title %}
     Article Detail: {{ article.title }}
 {% endblock %}
@@ -12,4 +14,14 @@
     <p>{{ article.description|linebreaks }}</p>
     <p>{{ article.author }}</p>
     <p>{{ article.publish }}</p>
+
+    {% for comment in comments %}
+        <p>{{ comment.text }}</p>
+    {% endfor %}
+
+    <form action="{% url 'blog:comment_create' article.pk %}" method="POST">
+        {% csrf_token %}
+        {{ comment_form|crispy }}
+        <input type="submit" value="Send">
+    </form>
 {% endblock %}
