@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
 from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -59,7 +58,7 @@ class ArticleSearchListView(generic.ListView):
     def get_queryset(self):
         q = self.request.GET.get('q')
         return Article.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
-    
+
 
 class CommentCreate(generic.CreateView):
     form_class = CommentForm
@@ -69,5 +68,9 @@ class CommentCreate(generic.CreateView):
         article = get_object_or_404(Article, id=article_id)
         form.instance.article = article
         form.instance.author = self.request.user
+
+        if self.request.user != article.author:
+            form.send_mail_reader(self.request.user)
+            form.send_mail_author(article, self.request.user)
+
         return super().form_valid(form)
-    
