@@ -3,14 +3,30 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Q
 
-from .models import Article
+from .models import Article, Category
 from .forms import ArticleCreateForm, CommentForm
 
 
 class ArticleListView(generic.ListView):
-    queryset = Article.objects.filter(status='p')
+    queryset = Article.objects.published()
     template_name = 'blog/article_list.html'
     context_object_name = 'articles'
+
+
+class CategoryListView(generic.ListView):
+    template_name = 'blog/category_list.html'
+    context_object_name = 'articles'
+    
+    def get_queryset(self):
+        global category
+        slug = self.kwargs.get('slug')
+        category = get_object_or_404(Category.objects.active_category(), slug=slug,)
+        return category.articles.published()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = category
+        return context
 
 
 class ArticleDetailView(generic.DetailView):
@@ -20,7 +36,7 @@ class ArticleDetailView(generic.DetailView):
     def get_object(self):
         global article
         pk = self.kwargs.get('pk')
-        article = get_object_or_404(Article, id=pk, status='p')
+        article = get_object_or_404(Article.objects.published(), id=pk)
         return article
 
     def get_context_data(self, **kwargs):
