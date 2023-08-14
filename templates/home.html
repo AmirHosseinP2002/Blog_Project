@@ -5,14 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <h3>This is our home page.</h3>
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.first_name|default:user.username }} 
-        <span>|</span>
-        <a href="{% url 'logout' %}">Log Out</a></p>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <span>|</span>
-        <a href="{% url 'accounts:signup' %}">Sign Up</a>
-    {% endif %}
+    <div class="card text-center">
+        <div class="card-body">
+        <h5 class="card-title margin-top">Welcome to my weblog</h5>
+        <p>If you don`t have account <a href="{% url 'accounts:signup' %}" class="text text-primary">click hre</a> for sign up.</p>
+        <p>For login <a href="{% url 'login' %}" class="text text-primary">click here</a>.</p>
+        </div>
+    </div>
 {% endblock %}

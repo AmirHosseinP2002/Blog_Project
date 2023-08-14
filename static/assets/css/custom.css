@@ -1,0 +1,8 @@
+.call-to-action .no-background {
+    background-image: none !important;
+}
+
+.card-title.margin-top {
+    margin-top: 200px;
+    margin-bottom: 100px;    
+} 

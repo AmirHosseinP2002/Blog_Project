@@ -1,26 +1,135 @@
 {% extends '_base.html' %}
 
+{% load static %}
+
 {% block title %}
-    Article List
+Article List
 {% endblock %}
 
 {% block content %}
-    <h2>Article List</h2>
-
-    {% for article in articles %}
-        <a href="{{ article.get_absolute_url }}">
-            <img src="{{ article.cover.url }}" alt="">
-            <h3>{{ article.title }}</h3>
-        </a>
-        <p>{{ article.description|truncatewords:20 }}</p>
-        <p>{{ article.author }}</p>
-        {% for cat in article.category_active.all %}
-            <a href="{% url 'blog:category_list' cat.slug %}">#{{ cat.title }}</a>
-        {% endfor %}
-        <hr>
-    {% endfor %}
-
-    <form action="{% url 'blog:article_search' %}" method="GET">
-        <input type="search" name="q">
-    </form>
+<div class="main-banner header-text">
+    <div class="container-fluid">
+      <div class="owl-banner owl-carousel">
+        <div class="item">
+          <img src="{% static 'assets/images/banner-item-01.jpg' %}" alt>
+          <div class="item-content">
+            <div class="main-content">
+              <div class="meta-category">
+                <span>aaaaa</span>
+              </div>
+              <a href="post-details.html"><h4>aaaaaa</h4></a>
+              <ul class="post-info">
+                <li><a href="#">Admin</a></li>
+                <li><a href="#">May 12, 2020</a></li>
+                <li><a href="#">12 Comments</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Banner Ends Here -->
+  <section class="call-to-action">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="main-content rounded-4">
+            <div class="row">
+              <div class="col-lg-8">
+                <h4>Movie News</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="blog-posts">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="all-blog-posts">
+            <div class="row">
+              {% for article in articles %}
+              <div class="col-lg-12">
+                <div class="blog-post">
+                  <div class="blog-thumb">
+                    <img src="{{ article.cover.url }}" alt>
+                  </div>
+                  <div class="down-content">
+                    <a href="{% url 'blog:article_detail' article.id %}"><h4>
+                      {{ article.title }}</h4></a>
+                    <ul class="post-info">
+                      <li><a href="#">{{ article.author }}</a></li>
+                      <li>{{ article.publish }}</li>
+                      <li>12 Comments</li>
+                    </ul>
+                    <p>{{ article.description|truncatewords:50 }}</p>
+                    <div class="post-options">
+                      <div class="row">
+                        <div class="col-6">
+                          <ul class="post-tags">
+                            <li><i class="fa fa-tags"></i></li>
+                            {% for cat in article.category_active.all %}
+                            <li><a href="{% url 'blog:category_list' cat.slug %}">
+                              {{ cat.title }}</a>,</li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="sidebar">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="sidebar-item search">
+                  <form id="search_form" name="gs" method="GET"
+                    action="{% url 'blog:article_search' %}">
+                    <input type="text" name="q" class="searchText"
+                      placeholder="type to search..." autocomplete="on">
+                  </form>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item recent-posts">
+                  <div class="sidebar-heading">
+                    <h2>Recent Posts</h2>
+                  </div>
+                  <div class="content">
+                    <ul>
+                      <li><a href="post-details.html">
+                          <h5>Vestibulum id turpis porttitor sapien facilisis
+                            scelerisque</h5>
+                          <span>May 31, 2020</span>
+                        </a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item categories">
+                  <div class="sidebar-heading">
+                    <h2>Categories</h2>
+                  </div>
+                  <div class="content">
+                    <ul>
+                      <li><a href="#">- Nature Lifestyle</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
 {% endblock %}

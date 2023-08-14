@@ -16,11 +16,12 @@ class ArticleListView(generic.ListView):
 class CategoryListView(generic.ListView):
     template_name = 'blog/category_list.html'
     context_object_name = 'articles'
-    
+
     def get_queryset(self):
         global category
         slug = self.kwargs.get('slug')
-        category = get_object_or_404(Category.objects.active_category(), slug=slug,)
+        category = get_object_or_404(
+            Category.objects.active_category(), slug=slug,)
         return category.articles.published()
 
     def get_context_data(self, **kwargs):
@@ -74,6 +75,11 @@ class ArticleSearchListView(generic.ListView):
     def get_queryset(self):
         q = self.request.GET.get('q')
         return Article.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q')
+        return context
 
 
 class CommentCreate(generic.CreateView):
