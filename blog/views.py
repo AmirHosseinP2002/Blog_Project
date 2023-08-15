@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.urls import reverse_lazy
-from django.db.models import Q
+from django.db.models import Q, Count
 
 from .models import Article, Category
 from .forms import ArticleCreateForm, CommentForm
@@ -44,6 +44,10 @@ class ArticleDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = article.comments.active_comments()
         context['comment_form'] = CommentForm()
+        tags = article.category_active().values_list('id', flat=True)
+        similar_articles = Article.objects.published().filter(category__in=tags).exclude(id=article.id)
+        similar_articles = similar_articles.annotate(same_tag=Count('category')).order_by('-same_tag', '-publish')[:4]
+        context['similar_articles'] = similar_articles
         return context
 
 
