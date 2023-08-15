@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.urls import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 
 class CommentManager(models.Manager):
@@ -79,6 +81,13 @@ class Article(models.Model):
     def category_active(self):
         return self.category.filter(status=True)
 
+    def average_rate(self):
+        comments = Comment.objects.filter(article=self).aggregate(average=Avg('rate'))
+        avg = 0
+        if comments['average'] is not None:
+            avg = float(comments['average'])
+        return avg
+
 
 class Comment(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -86,6 +95,8 @@ class Comment(models.Model):
         Article, on_delete=models.CASCADE, related_name='comments')
     email = models.EmailField()
     text = models.TextField()
+    rate = models.IntegerField(default=0, validators=[
+                               MinValueValidator(0), MaxValueValidator(5)])
     active = models.BooleanField(default=True)
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_updated = models.DateTimeField(auto_now=True)

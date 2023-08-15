@@ -13,7 +13,7 @@ class ArticleCreateForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['email', 'text']
+        fields = ['email', 'text', 'rate']
 
     def send_mail_reader(self, username):
         cd = self.cleaned_data

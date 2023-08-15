@@ -30,7 +30,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['article', 'author', 'text', 'active']
+    list_display = ['article', 'author', 'text', 'rate', 'active']
     list_filter = ['datetime_updated', 'active']
     raw_id_fields = ['author']
     ordering = ['-active', '-datetime_updated']

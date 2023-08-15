@@ -4,7 +4,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Article Detail: {{ article.title }}
+    Article Detail: {{ article.title }}
+{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'assets/css/star.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -26,6 +30,10 @@ Article Detail: {{ article.title }}
                                     <ul class="post-info">
                                         <li><a href="#">{{ article.author }}</a></li>
                                         <li>{{ article.publish }}</li>
+                                        <li>
+                                            <i class="far fa-star star two-star fas rate-active"></i>
+                                            {{ article.average_rate|stringformat:'.2f' }}
+                                        </li>
                                         <li>10 Comments</li>
                                     </ul>
                                     <p>
@@ -63,9 +71,13 @@ Article Detail: {{ article.title }}
                                                         alt>
                                                 </div>
                                                 <div class="right-content">
-                                                    <h4>{{ comment.author }}<span>
-                                                        {{ comment.datetime_created }}</span></h4>
+                                                    <h4>{{ comment.author }}<span>{{ comment.datetime_created }}</span></h4>
                                                     <p>{{ comment.text }}</p>
+                                                    <i class="far fa-star star two-star {% if comment.rate >= 1 %} fas rate-active {% endif %}"></i>
+                                                    <i class="far fa-star star two-star {% if comment.rate >= 2 %} fas rate-active {% endif %}"></i>
+                                                    <i class="far fa-star star two-star {% if comment.rate >= 3 %} fas rate-active {% endif %}"></i>
+                                                    <i class="far fa-star star two-star {% if comment.rate >= 4 %} fas rate-active {% endif %}"></i>
+                                                    <i class="far fa-star star two-star {% if comment.rate >= 5 %} fas rate-active {% endif %}"></i>
                                                 </div>
                                             </li>
                                             <li class="replied">
@@ -115,12 +127,41 @@ Article Detail: {{ article.title }}
                                                         required></textarea>
                                                 </fieldset>
                                             </div>
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12 mt-5">
                                                 <fieldset>
                                                     <button type="submit"
                                                         id="form-submit"
                                                         class="main-button">Submit</button>
                                                 </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="stars">
+                                                <label class="rate">
+                                                    <input type="radio" name="rate" id="star1" value="1">
+                                                    <div class="face"></div>
+                                                    <i class="far fa-star star one-star"></i>
+                                                </label>
+                                                <label class="rate">
+                                                    <input type="radio" name="rate" id="star2" value="2">
+                                                    <div class="face"></div>
+                                                    <i class="far fa-star star two-star"></i>
+                                                </label>
+                                                <label class="rate">
+                                                    <input type="radio" name="rate" id="star3" value="3">
+                                                    <div class="face"></div>
+                                                    <i class="far fa-star star three-star"></i>
+                                                </label>
+                                                <label class="rate">
+                                                    <input type="radio" name="rate" id="star4" value="4">
+                                                    <div class="face"></div>
+                                                    <i class="far fa-star star four-star"></i>
+                                                </label>
+                                                <label class="rate">
+                                                    <input type="radio" name="rate" id="star5" value="5">
+                                                    <div class="face"></div>
+                                                    <i class="far fa-star star five-star"></i>
+                                                </label>
                                             </div>
                                         </div>
                                     </form>
@@ -159,4 +200,8 @@ Article Detail: {{ article.title }}
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{% static 'assets/js/star.js' %}"></script> 
 {% endblock %}

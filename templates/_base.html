@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="{% static 'assets/css/templatemo-stand-blog.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+
+    {% block custom_css %}
+    {% endblock %}
 <!--
 
 TemplateMo 551 Stand Blog
@@ -117,6 +120,9 @@ https://templatemo.com/tm-551-stand-blog
     <script src="{% static 'assets/js/slick.js' %}"></script>
     <script src="{% static 'assets/js/isotope.js' %}"></script>
     <script src="{% static 'assets/js/accordions.js' %}"></script>
+
+    {% block custom_js %}
+    {% endblock %}
 
     <script language = "text/Javascript"> 
         cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field

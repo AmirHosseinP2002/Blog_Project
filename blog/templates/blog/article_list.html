@@ -7,6 +7,10 @@
 Article List
 {% endblock %}
 
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'assets/css/star.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="main-banner header-text">
     <div class="container-fluid">
@@ -64,6 +68,10 @@ Article List
                     <ul class="post-info">
                       <li><a href="#">{{ article.author }}</a></li>
                       <li>{{ article.publish }}</li>
+                      <li>
+                          <i class="far fa-star star two-star fas rate-active"></i>
+                          {{ article.average_rate|stringformat:'.2f' }}
+                      </li>
                       <li>12 Comments</li>
                     </ul>
                     <p>{{ article.description|truncatewords:50 }}</p>
@@ -100,6 +108,7 @@ Article List
                 </div>
               </div>
               {% hot_articles %}
+              {% high_rating %}
             </div>
           </div>
         </div>
