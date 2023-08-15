@@ -38,6 +38,10 @@ class ArticleDetailView(generic.DetailView):
         global article
         pk = self.kwargs.get('pk')
         article = get_object_or_404(Article.objects.published(), id=pk)
+
+        ip_address = self.request.user.ip_address
+        if ip_address not in article.hits.all():
+            article.hits.add(ip_address)
         return article
 
     def get_context_data(self, **kwargs):
@@ -45,8 +49,10 @@ class ArticleDetailView(generic.DetailView):
         context['comments'] = article.comments.active_comments()
         context['comment_form'] = CommentForm()
         tags = article.category_active().values_list('id', flat=True)
-        similar_articles = Article.objects.published().filter(category__in=tags).exclude(id=article.id)
-        similar_articles = similar_articles.annotate(same_tag=Count('category')).order_by('-same_tag', '-publish')[:4]
+        similar_articles = Article.objects.published().filter(
+            category__in=tags).exclude(id=article.id)
+        similar_articles = similar_articles.annotate(
+            same_tag=Count('category')).order_by('-same_tag', '-publish')[:4]
         context['similar_articles'] = similar_articles
         return context
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, Comment, Category
+from .models import Article, Comment, Category, IPAddress
 
 
 class InlineComment(admin.TabularInline):
@@ -34,3 +34,8 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['datetime_updated', 'active']
     raw_id_fields = ['author']
     ordering = ['-active', '-datetime_updated']
+
+
+@admin.register(IPAddress)
+class IPAddress(admin.ModelAdmin):
+    list_display = ['ip_address']

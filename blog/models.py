@@ -20,6 +20,17 @@ class CategoryManager(models.Manager):
 class ArticleManager(models.Manager):
     def published(self):
         return self.filter(status='p')
+    
+
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField()
+
+    def __str__(self):
+        return self.ip_address
+    
+    class Meta:
+        verbose_name = 'آیپی آدرس'
+        verbose_name_plural = 'آیپی آدرس ها'
 
 
 class Category(models.Model):
@@ -56,6 +67,7 @@ class Article(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_updated = models.DateTimeField(auto_now=True)
     category = models.ManyToManyField(Category, related_name='articles')
+    hits = models.ManyToManyField(IPAddress, through='ArticleHit', blank=True, related_name='hits')
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
 
     objects = ArticleManager()
@@ -112,3 +124,9 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:article_detail', args=[str(self.article.id)])
+
+
+class ArticleHit(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    ip_address = models.ForeignKey(IPAddress, on_delete=models.CASCADE)
+    datetime_created = models.DateTimeField(auto_now_add=True)

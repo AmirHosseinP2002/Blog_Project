@@ -12,28 +12,7 @@ Article List
 {% endblock %}
 
 {% block content %}
-<div class="main-banner header-text">
-    <div class="container-fluid">
-      <div class="owl-banner owl-carousel">
-        <div class="item">
-          <img src="{% static 'assets/images/banner-item-01.jpg' %}" alt>
-          <div class="item-content">
-            <div class="main-content">
-              <div class="meta-category">
-                <span>aaaaa</span>
-              </div>
-              <a href="post-details.html"><h4>aaaaaa</h4></a>
-              <ul class="post-info">
-                <li><a href="#">Admin</a></li>
-                <li><a href="#">May 12, 2020</a></li>
-                <li><a href="#">12 Comments</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% most_view_in_week %}
   <!-- Banner Ends Here -->
   <section class="call-to-action">
     <div class="container">
@@ -72,7 +51,8 @@ Article List
                           <i class="far fa-star star two-star fas rate-active"></i>
                           {{ article.average_rate|stringformat:'.2f' }}
                       </li>
-                      <li>12 Comments</li>
+                      <li>{{ article.hits.count }}</li>
+                      <li>{{ article.comments.count }} Comments</li>
                     </ul>
                     <p>{{ article.description|truncatewords:50 }}</p>
                     <div class="post-options">
