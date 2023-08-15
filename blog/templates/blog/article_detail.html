@@ -35,7 +35,7 @@
                                             {{ article.average_rate|stringformat:'.2f' }}
                                         </li>
                                         <li>{{ article.hits.count }}</li>
-                                        <li>10 Comments</li>
+                                        <li>{{ article.comments.count }} Comments</li>
                                     </ul>
                                     <p>
                                         {{ article.description|linebreaks }}
@@ -57,50 +57,33 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                          <div class="col-lg-12">
                             <div class="sidebar-item comments">
-                                <div class="sidebar-heading">
-                                    <h2>4 comments</h2>
-                                </div>
-                                <div class="content">
-                                    <ul>
-                                        {% for comment in comments %}
-                                            <li>
-                                                <div class="author-thumb">
-                                                    <img
-                                                        src="{% static 'assets/images/comment-author-01.jpg' %}"
-                                                        alt>
+                              <div class="sidebar-heading">
+                                <h2>{{ article.comments.count }}</h2>
+                              </div>
+                              <div class="content">
+                                <ul>
+                                    {% for comment in comments %}
+                                        <li style="display: block;">
+                                            <div class="author-thumb">
+                                                <img src="{% static 'assets/images/comment-author-01.jpg' %}" style="margin-top: -20px;" alt="">
                                                 </div>
                                                 <div class="right-content">
-                                                    <h4>{{ comment.author }}<span>{{ comment.datetime_created }}</span></h4>
-                                                    <p>{{ comment.text }}</p>
-                                                    <i class="far fa-star star two-star {% if comment.rate >= 1 %} fas rate-active {% endif %}"></i>
-                                                    <i class="far fa-star star two-star {% if comment.rate >= 2 %} fas rate-active {% endif %}"></i>
-                                                    <i class="far fa-star star two-star {% if comment.rate >= 3 %} fas rate-active {% endif %}"></i>
-                                                    <i class="far fa-star star two-star {% if comment.rate >= 4 %} fas rate-active {% endif %}"></i>
-                                                    <i class="far fa-star star two-star {% if comment.rate >= 5 %} fas rate-active {% endif %}"></i>
-                                                </div>
-                                            </li>
-                                            <li class="replied">
-                                                <div class="author-thumb">
-                                                    <img
-                                                        src="{% static 'assets/images/comment-author-02.jpg' %}"
-                                                        alt>
-                                                </div>
-                                                <div class="right-content">
-                                                    <h4>Thirteen Man<span>May 20,
-                                                            2020</span></h4>
-                                                    <p>In porta urna sed venenatis
-                                                        sollicitudin. Praesent urna
-                                                        sem, pulvinar vel mattis
-                                                        eget.</p>
-                                                </div>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
+                                                <h4>{{ comment.author }}<span>{{ comment.datetime_created }}</span></h4>
+                                                <p>{{ comment.text }}</p>
+                                                <i class="far fa-star star two-star {% if comment.rate >= 1 %} fas rate-active {% endif %}"></i>
+                                                <i class="far fa-star star two-star {% if comment.rate >= 2 %} fas rate-active {% endif %}"></i>
+                                                <i class="far fa-star star two-star {% if comment.rate >= 3 %} fas rate-active {% endif %}"></i>
+                                                <i class="far fa-star star two-star {% if comment.rate >= 4 %} fas rate-active {% endif %}"></i>
+                                                <i class="far fa-star star two-star {% if comment.rate >= 5 %} fas rate-active {% endif %}"></i>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                              </div>
                             </div>
-                        </div>
+                          </div>
                         <div class="col-lg-12">
                             <div class="sidebar-item submit-comment">
                                 <div class="sidebar-heading">

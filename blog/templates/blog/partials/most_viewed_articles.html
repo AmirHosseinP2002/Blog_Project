@@ -6,11 +6,11 @@
                 <img src="{{ article.cover.url }}" style="height: 400px;" alt>
                 <div class="item-content">
                     <div class="main-content">
-                        <a href="post-details.html"><h4>{{ article.title }}</h4></a>
+                        <a href="{% url 'blog:article_detail' article.pk %}"><h4>{{ article.title }}</h4></a>
                         <ul class="post-info">
                             <li><a href="#">{{ article.author }}</a></li>
                             <li class="text text-white">{{ article.publish }}</li>
-                            <li class="text text-white">12 Comments</li>
+                            <li class="text text-white">{{ article.comments.count }} Comments</li>
                         </ul>
                     </div>
                 </div>

@@ -7,9 +7,13 @@ class InlineComment(admin.TabularInline):
     model = Comment
     extra = 4
 
+class InlineIPAddress(admin.TabularInline):
+    model = Article.hits.through
+
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
+    
     list_display = ['title', 'author', 'publish', 'get_category', 'status']
     list_filter = ['publish', 'status']
     raw_id_fields = ['author']
@@ -17,6 +21,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_editable = ['status']
     inlines = [
         InlineComment,
+        InlineIPAddress,
     ]
 
 

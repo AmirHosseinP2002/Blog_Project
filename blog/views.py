@@ -106,3 +106,4 @@ class CommentCreate(generic.CreateView):
             form.send_mail_author(article, self.request.user)
 
         return super().form_valid(form)
+    
