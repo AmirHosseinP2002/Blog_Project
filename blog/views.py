@@ -5,6 +5,7 @@ from django.db.models import Q, Count
 
 from .models import Article, Category
 from .forms import ArticleCreateForm, CommentForm
+from .tasks import comment_send_mail_reader, comment_send_mail_author
 
 
 class ArticleListView(generic.ListView):
@@ -100,10 +101,16 @@ class CommentCreate(generic.CreateView):
         article = get_object_or_404(Article, id=article_id)
         form.instance.article = article
         form.instance.author = self.request.user
+        # reader
+        read_email = form.cleaned_data.get('email')
+        username = self.request.user.username
+        # author
+        title = article.title
+        author_email = article.author.email
 
         if self.request.user != article.author:
-            form.send_mail_reader(self.request.user)
-            form.send_mail_author(article, self.request.user)
+            comment_send_mail_reader.delay(username, read_email)
+            comment_send_mail_author.delay(title, author_email, username)
 
         return super().form_valid(form)
     
